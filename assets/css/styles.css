@@ -392,16 +392,30 @@ body {
     justify-content: center;
     align-items: center;
     animation: fadeInRight 1s ease;
+    position: relative;
 }
 
 .hero-blob {
-    width: 400px;
-    height: 400px;
+    width: 480px;
+    height: 480px;
     background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(30, 64, 175, 0.1) 50%, rgba(37, 99, 235, 0.15) 100%);
     border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
     animation: blob 20s infinite;
     backdrop-filter: blur(10px);
     border: 2px solid rgba(37, 99, 235, 0.2);
+    position: absolute;
+}
+
+.profile-image {
+    width: 420px;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid rgba(37, 99, 235, 0.2);
+    box-shadow: var(--shadow-xl);
+    position: relative;
+    z-index: 1;
+    animation: fadeInRight 1s ease;
 }
 
 [data-theme="dark"] .hero-blob {
@@ -1215,8 +1229,13 @@ body {
     }
 
     .hero-blob {
-        width: 250px;
-        height: 250px;
+        width: 280px;
+        height: 280px;
+    }
+
+    .profile-image {
+        width: 280px;
+        height: 280px;
     }
 
     .section {
