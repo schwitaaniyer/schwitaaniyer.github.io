@@ -232,3 +232,71 @@ window.addEventListener('scroll', () => {
         }
     });
 });
+
+// ===== Gallery View More Button =====
+const viewMoreBtn = document.getElementById('view-more-btn');
+const galleryGrid = document.querySelector('.gallery-grid');
+
+if (viewMoreBtn && galleryGrid) {
+    viewMoreBtn.addEventListener('click', () => {
+        const isExpanded = galleryGrid.classList.contains('show-all');
+        
+        if (isExpanded) {
+            // Collapse - show only first 6 items
+            galleryGrid.classList.remove('show-all');
+            viewMoreBtn.textContent = 'View More';
+            
+            // Scroll to gallery section smoothly
+            setTimeout(() => {
+                document.getElementById('gallery').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        } else {
+            // Expand - show all items
+            galleryGrid.classList.add('show-all');
+            viewMoreBtn.textContent = 'View Less';
+        }
+    });
+}
+
+// ===== Gallery Lightbox Modal =====
+const lightboxModal = document.getElementById('lightbox-modal');
+const lightboxImage = document.getElementById('lightbox-image');
+const lightboxClose = document.getElementById('lightbox-close');
+const galleryItems = document.querySelectorAll('.gallery-item');
+
+// Open lightbox when gallery item is clicked
+galleryItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+        const img = item.querySelector('.gallery-img');
+        if (img) {
+            lightboxImage.src = img.src;
+            lightboxImage.alt = img.alt;
+            lightboxModal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+    });
+});
+
+// Close lightbox when close button is clicked
+if (lightboxClose) {
+    lightboxClose.addEventListener('click', () => {
+        lightboxModal.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+    });
+}
+
+// Close lightbox when clicking outside the image
+lightboxModal.addEventListener('click', (e) => {
+    if (e.target === lightboxModal) {
+        lightboxModal.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+    }
+});
+
+// Close lightbox with Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightboxModal.classList.contains('active')) {
+        lightboxModal.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+    }
+});
