@@ -7,14 +7,6 @@
     <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script>
-        // Initialize EmailJS - Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key
-        // You can get this from https://www.emailjs.com/ → Account → General → Public Key
-        (function(){
-            emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS public key
-        })();
-    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -630,9 +622,10 @@
     <section class="contact section" id="contact">
         <div class="container">
             <h2 class="section-title">Get In Touch</h2>
+            <p class="contact-intro">I'm always open to discussing new projects, creative ideas, or opportunities. Feel free to reach out!</p>
             <div class="contact-content">
                 <div class="contact-info">
-                    <div class="contact-item">
+                    <a href="mailto:schwitaaniyer@gmail.com" class="contact-card">
                         <div class="contact-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
@@ -640,44 +633,23 @@
                             <h3>Email</h3>
                             <p>schwitaaniyer@gmail.com</p>
                         </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone"></i>
+                        <div class="contact-arrow">
+                            <i class="fas fa-arrow-right"></i>
                         </div>
-                        <div class="contact-details">
-                            <h3>Phone</h3>
-                            <p>+91-6369716732</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
+                    </a>
+                    <a href="https://www.linkedin.com/in/schwitaaniyer" target="_blank" class="contact-card">
                         <div class="contact-icon">
                             <i class="fab fa-linkedin"></i>
                         </div>
                         <div class="contact-details">
                             <h3>LinkedIn</h3>
-                            <p>linkedin.com/in/schwitaaniyer</p>
+                            <p>Connect with me on LinkedIn</p>
                         </div>
-                    </div>
+                        <div class="contact-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
                 </div>
-                <form class="contact-form" id="contact-form">
-                    <div class="form-group">
-                        <input type="text" id="name" name="name" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" placeholder="Your Email" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="subject" name="subject" placeholder="Subject" required>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="message" name="message" rows="6" placeholder="Your Message" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        Send <i class="fas fa-paper-plane"></i>
-                    </button>
-                    <div id="form-status" class="form-status"></div>
-                </form>
             </div>
         </div>
     </section>
