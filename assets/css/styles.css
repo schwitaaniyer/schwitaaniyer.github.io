@@ -410,6 +410,7 @@ body {
     width: 420px;
     height: 420px;
     object-fit: cover;
+    object-position: center 20%;
     border-radius: 50%;
     border: 5px solid rgba(37, 99, 235, 0.2);
     box-shadow: var(--shadow-xl);
@@ -559,13 +560,13 @@ body {
     max-width: 900px;
     margin: 0 auto;
     position: relative;
-    padding-left: 2rem;
+    padding-left: 0;
 }
 
 .timeline::before {
     content: '';
     position: absolute;
-    left: 0;
+    left: 7px;
     top: 0;
     bottom: 0;
     width: 2px;
@@ -575,19 +576,24 @@ body {
 .timeline-item {
     position: relative;
     margin-bottom: 3rem;
-    padding-left: 3rem;
+    padding-left: 2.5rem;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
 }
 
 .timeline-dot {
     position: absolute;
-    left: -1.5rem;
-    top: 0;
+    left: 0;
+    top: 1.5rem;
     width: 16px;
     height: 16px;
     border-radius: 50%;
     background: var(--primary-color);
-    border: 4px solid white;
+    border: 4px solid var(--bg-secondary);
     box-shadow: var(--shadow-md);
+    z-index: 1;
 }
 
 .timeline-content {
@@ -635,65 +641,12 @@ body {
 }
 
 /* ===== Education Section ===== */
-.education-card {
-    max-width: 900px;
-    margin: 0 auto;
+.education {
     background: var(--bg-primary);
-    padding: 3rem;
-    border-radius: 20px;
-    box-shadow: var(--shadow-lg);
-    display: flex;
-    gap: 2rem;
-    transition: var(--transition);
-    border: 1px solid var(--border-color);
 }
 
-.education-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-xl);
-}
-
-.education-icon {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 2rem;
-    flex-shrink: 0;
-}
-
-.education-content {
-    flex: 1;
-}
-
-.education-degree {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-}
-
-.education-field {
-    font-size: 1.2rem;
-    color: var(--primary-color);
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.education-institution {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.5rem;
-}
-
-.education-period {
-    font-size: 1rem;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
+.education .timeline-dot {
+    border-color: var(--bg-primary);
 }
 
 .education-details {
@@ -892,8 +845,7 @@ body {
 .lightbox-modal {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.95);
@@ -906,6 +858,15 @@ body {
 
 .lightbox-modal.active {
     display: flex;
+}
+
+.lightbox-viewer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    width: min(1100px, 100%);
+    max-height: 90vh;
 }
 
 .lightbox-close {
@@ -924,7 +885,7 @@ body {
     align-items: center;
     justify-content: center;
     transition: var(--transition);
-    z-index: 10001;
+    z-index: 10002;
 }
 
 .lightbox-close:hover {
@@ -933,13 +894,69 @@ body {
     transform: rotate(90deg);
 }
 
+.lightbox-nav {
+    flex-shrink: 0;
+    width: 54px;
+    height: 54px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    border-radius: 50%;
+    color: white;
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    z-index: 10001;
+    pointer-events: auto;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.lightbox-nav:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.75);
+}
+
+.lightbox-nav:active {
+    background: rgba(255, 255, 255, 0.4);
+}
+
 .lightbox-image {
-    max-width: 90%;
-    max-height: 90vh;
+    flex: 1;
+    min-width: 0;
+    max-width: calc(100% - 140px);
+    max-height: 85vh;
+    width: auto;
+    height: auto;
     object-fit: contain;
     border-radius: 10px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     animation: zoomIn 0.3s ease;
+    pointer-events: none;
+    user-select: none;
+}
+
+.lightbox-counter {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    z-index: 10001;
+    pointer-events: none;
+}
+
+.lightbox-image.slide-next {
+    animation: slideFromRight 0.3s ease;
+}
+
+.lightbox-image.slide-prev {
+    animation: slideFromLeft 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -962,6 +979,28 @@ body {
     }
 }
 
+@keyframes slideFromRight {
+    from {
+        transform: translateX(40px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideFromLeft {
+    from {
+        transform: translateX(-40px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
 @media (max-width: 768px) {
     .lightbox-close {
         top: 20px;
@@ -971,9 +1010,20 @@ body {
         font-size: 1.2rem;
     }
 
+    .lightbox-viewer {
+        gap: 0.6rem;
+        width: 100%;
+    }
+
+    .lightbox-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+
     .lightbox-image {
-        max-width: 95%;
-        max-height: 85vh;
+        max-width: calc(100% - 100px);
+        max-height: 80vh;
     }
 }
 
@@ -1247,17 +1297,8 @@ body {
         padding: 1.5rem;
     }
 
-    .education-card {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .timeline {
-        padding-left: 1rem;
-    }
-
     .timeline-item {
-        padding-left: 2rem;
+        padding-left: 2.25rem;
     }
 }
 

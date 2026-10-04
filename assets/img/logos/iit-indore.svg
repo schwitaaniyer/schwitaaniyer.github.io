@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="IIT Indore">
+  <rect width="64" height="64" rx="14" fill="#1B4F72"/>
+  <path d="M14 44L32 14l18 30H14z" fill="none" stroke="#F4D03F" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="32" cy="34" r="5" fill="#FFFFFF"/>
+  <text x="32" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="700" fill="#FFFFFF">IITI</text>
+</svg>

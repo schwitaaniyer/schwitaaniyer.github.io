@@ -183,41 +183,103 @@ if (viewMoreBtn && galleryGrid) {
 const lightboxModal = document.getElementById('lightbox-modal');
 const lightboxImage = document.getElementById('lightbox-image');
 const lightboxClose = document.getElementById('lightbox-close');
+const lightboxPrev = document.getElementById('lightbox-prev');
+const lightboxNext = document.getElementById('lightbox-next');
+const lightboxCounter = document.getElementById('lightbox-counter');
 const galleryItems = document.querySelectorAll('.gallery-item');
+const galleryImages = Array.from(galleryItems)
+    .map(item => item.querySelector('.gallery-img'))
+    .filter(Boolean);
 
-// Open lightbox when gallery item is clicked
-galleryItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-        const img = item.querySelector('.gallery-img');
-        if (img) {
-            lightboxImage.src = img.src;
-            lightboxImage.alt = img.alt;
-            lightboxModal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        }
-    });
+let currentLightboxIndex = 0;
+
+function updateLightboxCounter() {
+    if (!lightboxCounter || !galleryImages.length) return;
+    lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${galleryImages.length}`;
+}
+
+function openLightbox(index) {
+    if (!lightboxModal || !lightboxImage || !galleryImages.length) return;
+
+    currentLightboxIndex = ((index % galleryImages.length) + galleryImages.length) % galleryImages.length;
+    const img = galleryImages[currentLightboxIndex];
+
+    lightboxImage.classList.remove('slide-next', 'slide-prev');
+    lightboxImage.src = img.src;
+    lightboxImage.alt = img.alt;
+    updateLightboxCounter();
+    lightboxModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    if (!lightboxModal) return;
+    lightboxModal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function showLightboxImage(index, direction) {
+    if (!lightboxImage || !galleryImages.length) return;
+
+    currentLightboxIndex = ((index % galleryImages.length) + galleryImages.length) % galleryImages.length;
+    const img = galleryImages[currentLightboxIndex];
+
+    lightboxImage.classList.remove('slide-next', 'slide-prev');
+    void lightboxImage.offsetWidth;
+    lightboxImage.classList.add(direction === 'prev' ? 'slide-prev' : 'slide-next');
+
+    lightboxImage.src = img.src;
+    lightboxImage.alt = img.alt;
+    updateLightboxCounter();
+}
+
+function showNextImage() {
+    showLightboxImage(currentLightboxIndex + 1, 'next');
+}
+
+function showPrevImage() {
+    showLightboxImage(currentLightboxIndex - 1, 'prev');
+}
+
+galleryItems.forEach((item, index) => {
+    item.addEventListener('click', () => openLightbox(index));
 });
 
-// Close lightbox when close button is clicked
-if (lightboxClose) {
-    lightboxClose.addEventListener('click', () => {
-        lightboxModal.classList.remove('active');
-        document.body.style.overflow = ''; // Restore scrolling
+// Use pointerdown so hover/layout shifts can't steal the click and close the modal
+function bindNavAction(element, action) {
+    if (!element) return;
+    element.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        action();
+    });
+    element.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
     });
 }
 
-// Close lightbox when clicking outside the image
-lightboxModal.addEventListener('click', (e) => {
-    if (e.target === lightboxModal) {
-        lightboxModal.classList.remove('active');
-        document.body.style.overflow = ''; // Restore scrolling
-    }
-});
+bindNavAction(lightboxPrev, showPrevImage);
+bindNavAction(lightboxNext, showNextImage);
+bindNavAction(lightboxClose, closeLightbox);
 
-// Close lightbox with Escape key
+if (lightboxModal) {
+    lightboxModal.addEventListener('click', (e) => {
+        // Only close when clicking the dark backdrop, never the viewer/controls
+        if (e.target === lightboxModal) {
+            closeLightbox();
+        }
+    });
+}
+
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lightboxModal.classList.contains('active')) {
-        lightboxModal.classList.remove('active');
-        document.body.style.overflow = ''; // Restore scrolling
+    if (!lightboxModal || !lightboxModal.classList.contains('active')) return;
+
+    if (e.key === 'Escape') {
+        closeLightbox();
+    } else if (e.key === 'ArrowRight') {
+        showNextImage();
+    } else if (e.key === 'ArrowLeft') {
+        showPrevImage();
     }
 });
